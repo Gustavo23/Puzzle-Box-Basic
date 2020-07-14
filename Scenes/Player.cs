@@ -32,7 +32,17 @@ public class Player : KinematicBody2D {
         rayCast2D.CastTo = vectorPosition;
         rayCast2D.ForceRaycastUpdate();
         if(!rayCast2D.IsColliding()) {
-            Position += inputs[direction] * gridSize;
+            Position += vectorPosition;
+        } else {
+            Godot.Object collider = rayCast2D.GetCollider();
+            if(collider.GetType().ToString() == "Box") {
+                Box boxCollider = collider as Box;
+                if(boxCollider.IsInGroup("boxes")) {
+                    if(boxCollider.Move(direction)) {
+                        Position += vectorPosition;
+                    }
+                }
+            }
         }
     }
 }

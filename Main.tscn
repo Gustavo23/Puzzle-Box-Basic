@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Box.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Spot.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node2D"]
 
@@ -34,16 +36,36 @@ position = Vector2( 64, 64 )
 position = Vector2( 64, 48 )
 
 [node name="Wall4" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 80, 48 )
+position = Vector2( 80, 128 )
 
 [node name="Wall5" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 96, 48 )
+position = Vector2( 96, 32 )
 
 [node name="Wall6" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 112, 48 )
+position = Vector2( 112, 112 )
 
 [node name="Wall10" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 128, 48 )
+position = Vector2( 128, 64 )
 
 [node name="Wall11" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 144, 48 )
+position = Vector2( 144, 96 )
+
+[node name="Box" parent="." instance=ExtResource( 3 )]
+position = Vector2( 80, 48 )
+
+[node name="Spot" parent="." instance=ExtResource( 4 )]
+position = Vector2( 160, 64 )
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+visible = true
+margin_left = 96.0
+margin_top = 64.0
+margin_right = 247.0
+margin_bottom = 122.0
+window_title = "Congratulations!"
+resizable = true
+dialog_text = "A WINNER IS YOU!"
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
