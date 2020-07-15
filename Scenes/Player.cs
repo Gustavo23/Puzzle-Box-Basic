@@ -22,7 +22,7 @@ public class Player : KinematicBody2D {
 
     public override void _UnhandledInput(InputEvent @event) {
         foreach (var entry in inputs) {
-            if (@event.IsActionPressed(entry.Key)) {
+            if (@event.IsActionPressed(entry.Key) && !GetNode<Tween>("Tween").IsActive()) {
                 Move(entry.Key);
             }
             if(@event.IsActionPressed("reset")) {
@@ -35,8 +35,9 @@ public class Player : KinematicBody2D {
         var vectorPosition = inputs[direction] * gridSize;
         rayCast2D.CastTo = vectorPosition;
         rayCast2D.ForceRaycastUpdate();
+        InterpolateMove(direction, vectorPosition);
         if(!rayCast2D.IsColliding()) {
-            Position += vectorPosition;
+            GetNode<Tween>("Tween").Start();
             main.moves += 1;
         } else {
             Godot.Object collider = rayCast2D.GetCollider();
@@ -44,11 +45,20 @@ public class Player : KinematicBody2D {
                 Box boxCollider = collider as Box;
                 if(boxCollider.IsInGroup("boxes")) {
                     if(boxCollider.Move(direction)) {
-                        Position += vectorPosition;
+                         GetNode<Tween>("Tween").Start();
                         main.moves += 1;
                     }
                 }
             }
         }
+    }
+
+    public void InterpolateMove(string direction, Vector2 vectorPosition) {
+        GetNode<Tween>("Tween").InterpolateProperty(
+            this, "position",
+            Position, Position + vectorPosition, 0.2f,
+            Tween.TransitionType.Sine,
+            Tween.EaseType.InOut
+        );
     }
 }
